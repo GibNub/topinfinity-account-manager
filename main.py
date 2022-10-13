@@ -3,8 +3,13 @@ Main file
 """
 import random
 import time
+import os
+
 from account import Account
 import credentials
+
+
+DIR = 'pfps/'
 
 
 accounts = []
@@ -13,8 +18,10 @@ message = f'''{bar}Type a number
 1: Create topic
 2: Create item in a topic (only one)
 3: Rate an item
+4: Change pfp
 {bar}
 >>> '''
+
 
 def create_accounts():
     '''Creates accounts with unique filler from list of usernames'''
@@ -69,6 +76,25 @@ def rate_item():
     print('\n\nRating complete\n')
 
 
+def change_pfp():
+    '''Change pfp for all users from randomly chosen pfp in directory'''
+    # Check if pfps folder exists
+    if not os.path.exists(DIR):
+        os.makedirs(DIR)
+        print('\npfp folder created')
+    i = 0
+    input(f'''
+{bar}Place profile pictures inside pfps folder, then press enter once complete
+{bar}>>> ''')
+    for account in accounts:
+        pfp_name = random.choice(os.listdir(DIR))
+        directory = os.path.join(DIR, pfp_name)
+        account.change_pfp(directory)
+        i += 1
+        print(f'\nPfp changed for {i} account(s)', end='', flush=True)
+    print('\nPfp change complete\n')
+
+
 def main():
     """
     Main function
@@ -85,6 +111,8 @@ def main():
             create_item()
         elif choice == '3':
             rate_item()
+        elif choice == '4':
+            change_pfp()
         else:
             print('\n[Invalid Input]\n')
 

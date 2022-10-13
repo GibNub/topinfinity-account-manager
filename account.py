@@ -6,6 +6,9 @@ Module to handle account as object
 # from time import sleep
 
 import requests
+import os
+
+
 import credentials
 # from onesecmail import OneSecMail
 
@@ -23,6 +26,7 @@ class UserData:
         self.password = password
         # self.mailbox = OneSecMail.from_address(credentials.generate_email())
         self.session = requests.Session()
+        self.pfp = None
         # self.mail_address = self.mailbox.address
         self.creds = {
             'username': self.username,
@@ -98,6 +102,15 @@ class Account:
             f'rating.{Account.rate_id}': rating
         }
         self.userdata.session.post(url=f'{DOMAIN}/rate/{Account.rate_id}', data=self.item_rate)
+
+
+    def change_pfp(self, directory):
+        '''
+        Change pfp for all accounts
+        ''' 
+        with open(directory, 'rb') as file:
+            self.userdata.pfp = {'file': file}
+            self.userdata.session.post(url=f'{DOMAIN}/pfp', files=self.userdata.pfp)
 
 
     @classmethod
