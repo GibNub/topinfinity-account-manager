@@ -91,7 +91,7 @@ def change_pfp():
         directory = os.path.join(DIR, pfp_name)
         account.change_pfp(directory)
         i += 1
-        print(f'\nPfp changed for {i} account(s)', end='', flush=True)
+        print(f'\rPfp changed for {i} account(s)', end='', flush=True)
     print('\nPfp change complete\n')
 
 
